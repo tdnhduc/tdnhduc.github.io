@@ -10,6 +10,6 @@ Mình tự giới thiệu mình họ tên đầy đủ là Nguyễn Huỳnh Đ�
 
 Mình cực kì may mắn khi được gặp thầy cực kì có tâm là thầy Lý Quốc Ngọc (chắc chắn mấy bạn học HCMUS mà học Computer vision là biết thầy) và anh Sang, anh Luân và tất cả đồng nghiệp ở cty. Mình được học rất nhiều thứ ở thuở bắt đầu vào ngành. Mình cực kì cảm ơn vì điều đấy.
 
-Vì mình chỉ là chiếc chiếu mới đôi khi có những bài viết mình đôi khi có những sai sót về mặt kĩ thuật. Hi vọng các bạn góp ý và cùng nhau phát triển.
+Vì mình chỉ là chiếc chiếu mới đôi khi có những bài viết mình có những sai sót về mặt kĩ thuật. Hi vọng các bạn góp ý và cùng nhau phát triển.
 
 
