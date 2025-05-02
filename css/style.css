@@ -847,8 +847,8 @@ form label {
 #fh5co-header .display-tc h1,
 #fh5co-counter .display-tc h1,
 .fh5co-cover .display-tc h1 {
-  margin-bottom: 2px;
-  font-size: 65px;
+  margin-bottom: 0px;
+  font-size: 55px;
   line-height: 1.5;
   font-family: "Amsterdam", Arial, serif;
 }
