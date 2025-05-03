@@ -37,6 +37,18 @@
 	<script src="js/respond.min.js"></script>
 	<![endif]-->
 
+	<style>
+	  .fh5co-cover .display-tc h1,
+	  .fh5co-cover .display-tc h2,
+	  .fh5co-cover .display-tc p,
+	  .fh5co-cover .lyrics {
+	    margin-bottom: 10px !important;
+	  }
+	  .fh5co-cover .lyrics {
+	    margin-top: 10px !important;
+	  }
+	</style>
+
 	</head>
 	<body>
 		
@@ -83,6 +95,127 @@
 							<audio id="bg-music" loop>
 							  <source src="audio/I_Do.mp3" type="audio/mpeg">
 							</audio>
+							<div class="lyrics" style="max-width:600px;margin:20px auto 0 auto;text-align:center;font-size:1.1em;line-height:1.6;background:#ffecee;padding:16px 24px;border-radius:12px;">
+							  <ul id="lyrics-list" style="list-style:none;padding:0;margin:5px;">
+							    <li data-time="0">My whole world changed from the moment I met you</li>
+							    <li data-time="4">And it would never be the same</li>
+							    <li data-time="7">Felt like I knew that I always loved you</li>
+							    <li data-time="11">From the moment I heard your name</li>
+							    <li data-time="15">Everything was perfect, I knew this love was worth it</li>
+							    <li data-time="19">Our own miracle in the making</li>
+							    <li data-time="22">Until this world stops turning</li>
+							    <li data-time="25">I'll still be here waiting and waiting to make that vow that</li>
+							    <li data-time="29"><strong>Chorus:</strong></li>
+							    <li data-time="30">I'll be by your side, till the day I die</li>
+							    <li data-time="34">I'll be waiting till I hear you say I Do</li>
+							    <li data-time="38">Something old, something new</li>
+							    <li data-time="41">Something borrowed, something blue</li>
+							    <li data-time="44">I'll be waiting till I hear you say I Do</li>
+							    <li data-time="48">I Do love you</li>
+							    <li data-time="51">Yes, I Do</li>
+							    <li data-time="53">Love you</li>
+							    <li data-time="55">I'll be waiting till I hear you say I Do</li>
+							    <li data-time="59">Always and forever, that's how long I'll be true</li>
+							    <li data-time="63">I'll be waiting till I hear you say I Do</li>
+							    <li data-time="67">Just say I Do</li>
+							    <li data-time="70"></li>
+							    <li data-time="72">There was a time I thought love would never come my way</li>
+							    <li data-time="76">Then showed you showed me the way</li>
+							    <li data-time="79">I can't believe for every day</li>
+							    <li data-time="82">You are my everything</li>
+							    <li data-time="85">And if the sun refused to shine</li>
+							    <li data-time="88">Even if romance ran out of rhyme</li>
+							    <li data-time="91">You would still have my heart until the end of time</li>
+							    <li data-time="95">You're all I need, my love, my Valentine</li>
+							    <li data-time="100">I'll be by your side, till the day I die</li>
+							    <li data-time="104">I'll be waiting till I hear you say I Do</li>
+							    <li data-time="108">Something old, something new</li>
+							    <li data-time="111">Something borrowed, something blue</li>
+							    <li data-time="114">I'll be waiting till I hear you say I Do</li>
+							    <li data-time="118">I Do love you</li>
+							    <li data-time="121">Yes, I Do</li>
+							    <li data-time="123">Love you</li>
+							    <li data-time="125">I'll be waiting till I hear you say I Do</li>
+							    <li data-time="129">Always and forever, that's how long I'll be true</li>
+							    <li data-time="133">I'll be waiting till I hear you say I Do</li>
+							    <li data-time="137">Just say I Do</li>
+							    <li data-time="140"></li>
+							    <li data-time="142">The day you say I Do</li>
+							    <li data-time="145">I Do</li>
+							  </ul>
+							</div>
+							<style>
+							  .lyrics .active-lyric {
+							    color: #d72660;
+							    font-weight: bold;
+							    background: #fff3;
+							    border-radius: 6px;
+							    margin-bottom: 12px;
+							    border-bottom: 2px solid #d72660;
+							    padding-bottom: 6px;
+							  }
+							  .lyrics li {
+							    margin-bottom: 6px;
+							    transition: border 0.2s, margin 0.2s;
+							  }
+							</style>
+							<script>
+							(function() {
+							  var audio = document.getElementById('bg-music');
+							  var lyrics = document.getElementById('lyrics-list').getElementsByTagName('li');
+							  var current = 0;
+							  var running = false;
+							  function updateLyrics() {
+							    if (!running) return;
+							    var time = audio.currentTime;
+							    var found = 0;
+							    for (var i = 0; i < lyrics.length; i++) {
+							      var start = parseFloat(lyrics[i].getAttribute('data-time'));
+							      var next = i < lyrics.length - 1 ? parseFloat(lyrics[i+1].getAttribute('data-time')) : 1e6;
+							      if (time >= start && time < next) {
+							        found = i;
+							        break;
+							      }
+							    }
+							    if (current !== found) {
+							      for (var j = 0; j < lyrics.length; j++) {
+							        lyrics[j].classList.remove('active-lyric');
+							        lyrics[j].style.display = 'none';
+							      }
+							      for (var k = 0; k < 5; k++) {
+							        if (lyrics[found + k]) lyrics[found + k].style.display = '';
+							      }
+							      lyrics[found].classList.add('active-lyric');
+							      lyrics[found].scrollIntoView({block:'center',behavior:'smooth'});
+							      current = found;
+							    }
+							  }
+							  function resetLyrics() {
+							    for (var j = 0; j < lyrics.length; j++) {
+							      lyrics[j].classList.remove('active-lyric');
+							      lyrics[j].style.display = 'none';
+							    }
+							    for (var i = 0; i < 4; i++) {
+							      if (lyrics[i]) lyrics[i].style.display = '';
+							    }
+							    current = 0;
+							  }
+							  var playBtn = document.querySelector('a.btn.btn-default.btn-sm[onclick]');
+							  if (playBtn) {
+							    playBtn.addEventListener('click', function() {
+							      running = true;
+							      updateLyrics();
+							    });
+							  }
+							  audio.addEventListener('timeupdate', updateLyrics);
+							  audio.addEventListener('seeked', updateLyrics);
+							  audio.addEventListener('play', function() { if (running) updateLyrics(); });
+							  audio.addEventListener('pause', function() { running = false; });
+							  audio.addEventListener('ended', function() { running = false; resetLyrics(); });
+							  // Show first 4 lines on load
+							  resetLyrics();
+							})();
+							</script>
 						</div>
 					</div>
 				</div>
