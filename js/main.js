@@ -213,6 +213,22 @@
 		$(window).stellar();
 	};
 
+	var initializeFlipClock = function() {
+		// Calculate the difference in seconds between now and the target date
+		var futureDate  = new Date("July 20, 2025 11:00:00"); // Set target date and time
+		var now = new Date();
+		// Calculate difference in seconds
+		var diff = (futureDate.getTime() / 1000) - (now.getTime() / 1000);
+
+		// Instantiate a coutdown FlipClock
+		var clock = $('.clock').FlipClock(diff, {
+			clockFace: 'DailyCounter', // Use a face that includes days
+			countdown: true,
+			showSeconds: true // Or false if you don't want seconds
+			// ... other flipclock options if needed
+		});
+	};
+
 	
 	$(function(){
 		mobileMenuOutsideClick();
@@ -226,6 +242,7 @@
 		loaderPage();
 		counter();
 		counterWayPoint();
+		initializeFlipClock();
 	});
 
 
