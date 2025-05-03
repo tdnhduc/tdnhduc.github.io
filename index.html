@@ -211,20 +211,25 @@
 
 				</div>
 			</div>
-
-
-
+			<div id="video-popup" class="mfp-hide" style="max-width: 800px; margin: 0 auto;">
+				<video autoplay controls autoplay style="width:100%;">
+				  <source src="video/a.mp4" type="video/mp4">
+				  Your browser does not support HTML5 video.
+				</video>
+			  </div>
 				<div class="container animate-box">
-					<div class="fh5co-video fh5co-bg" style="background-image: url(images/img_bg_3.jpg); ">
-						<a href="#" class="popup-vimeo"><i class="icon-video2"></i></a>
+					<div class="fh5co-video fh5co-bg" style="background-image: url(images/photo1.jpg);">
+						<a href="#video-popup" class="open-video-popup"><i class="icon-video2"></i></a>
 						<div class="overlay"></div>
-					</div>
+					  </div>
+
 				</div>
 			</div>
 			
 		</div>
 	</div>
 	<div class="gototop js-top">
+		<div class="overlay"></div>
 		<a href="#" class="js-gotop"><i class="icon-arrow-up"></i></a>
 	</div>
 
@@ -255,6 +260,18 @@
 	<script src="js/simplyCountdown.js"></script>
 	<!-- Main -->
 	<script src="js/main.js"></script>
+	<script>
+		$(document).ready(function() {
+		  $('.open-video-popup').magnificPopup({
+			type: 'inline',
+			midClick: true,
+			removalDelay: 300,
+			mainClass: 'mfp-fade'
+		  });
+		});
+		</script>
+		
+
 	<center>View Source Code on <a href="https://github.com/shyamjos/wedding-website">GitHub <img src="images/github-logo.png"> </a> </center>
 	</body>
 </html>
