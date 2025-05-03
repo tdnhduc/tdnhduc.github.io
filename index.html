@@ -87,11 +87,16 @@
 							<div class="flipTimebox">
 								<div class="clock clock-fix"></div>
 							  </div>
-							<p><a href="#fh5co-event" class="btn btn-default btn-sm" onclick="document.getElementById('bg-music').play()">
-								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
-									<path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
-								  </svg><i class="bi bi-play"></i>
-								Save our date</a></p>
+							<p>
+							  <a id="music-toggle-btn" href="#fh5co-event" class="btn btn-default btn-sm" onclick="return false;">
+							    <span id="music-icon">
+							      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16">
+							        <path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/>
+							      </svg>
+							    </span>
+							    <span id="music-label">Play music</span>
+							  </a>
+							</p>
 							<audio id="bg-music" loop>
 							  <source src="audio/I_Do.mp3" type="audio/mpeg">
 							</audio>
@@ -162,58 +167,69 @@
 							<script>
 							(function() {
 							  var audio = document.getElementById('bg-music');
+							  var playBtn = document.getElementById('music-toggle-btn');
+							  var musicIcon = document.getElementById('music-icon');
+							  var musicLabel = document.getElementById('music-label');
+							  var running = false;
 							  var lyrics = document.getElementById('lyrics-list').getElementsByTagName('li');
 							  var current = 0;
-							  var running = false;
-							  function updateLyrics() {
-							    if (!running) return;
-							    var time = audio.currentTime;
-							    var found = 0;
-							    for (var i = 0; i < lyrics.length; i++) {
-							      var start = parseFloat(lyrics[i].getAttribute('data-time'));
-							      var next = i < lyrics.length - 1 ? parseFloat(lyrics[i+1].getAttribute('data-time')) : 1e6;
-							      if (time >= start && time < next) {
-							        found = i;
-							        break;
-							      }
+
+							  function setPlayIcon() {
+							    musicIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" fill="currentColor" class="bi bi-play-fill" viewBox="0 0 16 16"><path d="m11.596 8.697-6.363 3.692c-.54.313-1.233-.066-1.233-.697V4.308c0-.63.692-1.01 1.233-.696l6.363 3.692a.802.802 0 0 1 0 1.393"/></svg>';
+							    musicLabel.textContent = 'Play music';
+							  }
+							  function setPauseIcon() {
+							    musicIcon.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="18" fill="currentColor" class="bi bi-pause-fill" viewBox="0 0 16 16"><path d="M5.5 3.5A1.5 1.5 0 0 1 7 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5zm5 0A1.5 1.5 0 0 1 12 5v6a1.5 1.5 0 0 1-3 0V5a1.5 1.5 0 0 1 1.5-1.5z"/></svg>';
+							    musicLabel.textContent = 'Pause music';
+							  }
+
+							  playBtn.addEventListener('click', function() {
+							    if (audio.paused) {
+							      audio.play();
+							      running = true;
+							      setPauseIcon();
+							    } else {
+							      audio.pause();
+							      running = false;
+							      setPlayIcon();
 							    }
-							    if (current !== found) {
-							      for (var j = 0; j < lyrics.length; j++) {
-							        lyrics[j].classList.remove('active-lyric');
-							        lyrics[j].style.display = 'none';
-							      }
-							      for (var k = 0; k < 5; k++) {
-							        if (lyrics[found + k]) lyrics[found + k].style.display = '';
-							      }
-							      lyrics[found].classList.add('active-lyric');
-							      lyrics[found].scrollIntoView({block:'center',behavior:'smooth'});
-							      current = found;
+							  });
+
+							  audio.addEventListener('play', function() {
+							    setPauseIcon();
+							    running = true;
+							  });
+							  audio.addEventListener('pause', function() {
+							    setPlayIcon();
+							    running = false;
+							  });
+							  audio.addEventListener('ended', function() {
+							    setPlayIcon();
+							    running = false;
+							  });
+
+							  var time = audio.currentTime;
+							  var found = 0;
+							  for (var i = 0; i < lyrics.length; i++) {
+							    var start = parseFloat(lyrics[i].getAttribute('data-time'));
+							    var next = i < lyrics.length - 1 ? parseFloat(lyrics[i+1].getAttribute('data-time')) : 1e6;
+							    if (time >= start && time < next) {
+							      found = i;
+							      break;
 							    }
 							  }
-							  function resetLyrics() {
+							  if (current !== found) {
 							    for (var j = 0; j < lyrics.length; j++) {
 							      lyrics[j].classList.remove('active-lyric');
 							      lyrics[j].style.display = 'none';
 							    }
-							    for (var i = 0; i < 4; i++) {
-							      if (lyrics[i]) lyrics[i].style.display = '';
+							    for (var k = 0; k < 5; k++) {
+							      if (lyrics[found + k]) lyrics[found + k].style.display = '';
 							    }
-							    current = 0;
+							    lyrics[found].classList.add('active-lyric');
+							    lyrics[found].scrollIntoView({block:'center',behavior:'smooth'});
+							    current = found;
 							  }
-							  var playBtn = document.querySelector('a.btn.btn-default.btn-sm[onclick]');
-							  if (playBtn) {
-							    playBtn.addEventListener('click', function() {
-							      running = true;
-							      updateLyrics();
-							    });
-							  }
-							  audio.addEventListener('timeupdate', updateLyrics);
-							  audio.addEventListener('seeked', updateLyrics);
-							  audio.addEventListener('play', function() { if (running) updateLyrics(); });
-							  audio.addEventListener('pause', function() { running = false; });
-							  audio.addEventListener('ended', function() { running = false; resetLyrics(); });
-							  // Show first 4 lines on load
-							  resetLyrics();
 							})();
 							</script>
 						</div>
